@@ -25,4 +25,4 @@ def render_image():
     return render_template('images/latest_image.html', image_data=image_data)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000
+    app.run(host='0.0.0.0', port=5000)
