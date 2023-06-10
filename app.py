@@ -2,6 +2,7 @@ from flask import Flask, render_template
 import csv
 import os
 import time
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -21,10 +22,11 @@ def get_last_entry(csv_file_path):
                 # Extract the desired values
                 image_path = last_entry[0]
                 number_plate_image_path = last_entry[1]
-                date_time = last_entry[2]
+                timestamp = last_entry[2]
                 number_plate = last_entry[3]
                 color = last_entry[4]
                 print(image_path)
+                date_time = datetime.strptime(timestamp, "%Y%m%d%H%M%S")
                 return {
                     'image_path': image_path,
                     'number_plate_image_path': number_plate_image_path,
@@ -43,11 +45,11 @@ def render_last_entry():
     csv_file_path = './static/numberplateimages/numberplates_data.csv'
     last_entry = get_last_entry(csv_file_path)
 
-    return render_template('images/index.html', entry=last_entry)
+    return render_template('images/latest_image.html', entry=last_entry)
 
 
 
 if __name__ == '__main__':
     while True:
-        app.run( use_reloader=False, host='0.0.0.0')
+        app.run(use_reloader=False, host='0.0.0.0')
         time.sleep(10)
