@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Red Hat Hackthon 2023</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #666666;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .image-container {
+            flex: 1;
+            text-align: right;
+            margin-right: 20px;
+        }
+
+        img {
+            width: 400px;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-container {
+            flex: 1;
+            text-align: right;
+        }
+
+        p {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #999999;
+        }
+
+        .light {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .light-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .red-light-circle {
+            background-color: red;
+        }
+
+        .green-light-circle {
+            background-color: green;
+        }
+
+        .red-text {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Red Hat Hackthon 2023</h1>
+    <h2>Intelligent vehicle pass</h2>
+    {% if image_data %}
+        <div class="container">
+            <div class="image-container">
+                <img src="{{ image_data.image_path }}" alt="Image">
+            </div>
+            <div class="info-container">
+                <p>Date and Time: {{ image_data.date_time }}</p>
+                <p>Number Plate: {{ image_data.number_plate }}</p>
+                <div class="light">
+                    {% if image_data.color == 'Red' %}
+                        <div class="light-circle red-light-circle"></div>
+                        <p class="red-text">Red</p>
+                    {% elif image_data.color == 'Green' %}
+                        <div class="light-circle green-light-circle"></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p class="no-data">No image data available.</p>
+    {% endif %}
+</body>
+</html>
