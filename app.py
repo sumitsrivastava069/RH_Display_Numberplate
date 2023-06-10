@@ -50,10 +50,6 @@ def render_last_entry():
 
 
 if __name__ == '__main__':
-    # Configure SSL/TLS context
-    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-    ssl_context.load_cert_chain(certfile='path/to/certificate.crt', keyfile='path/to/private.key')
-
     while True:
-        app.run(use_reloader=False, host='0.0.0.0', port=443, ssl_context=ssl_context)
+        app.run(use_reloader=False, host='0.0.0.0')
         time.sleep(10)
