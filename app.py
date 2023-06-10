@@ -1,49 +1,53 @@
 from flask import Flask, render_template
 import csv
 import os
+import time
 
-app = Flask(__name__, static_folder='static')
-latest_image_data = {}
+app = Flask(__name__)
 
-def update_image_data():
-    global latest_image_data
+def get_last_entry(csv_file_path):
+    # Check if the CSV file exists
+    if os.path.isfile(csv_file_path):
+        with open(csv_file_path, 'r') as file:
+            csv_reader = csv.reader(file)
+            last_entry = None
 
-    # Get the current directory
-    current_dir = os.path.dirname(os.path.abspath(__file__))
+            # Iterate over the rows in reverse order
+            for row in reversed(list(csv_reader)):
+                last_entry = row
+                break  # Only need the last entry, so break after the first row
 
-    # Read the CSV file
-    csv_file_path = os.path.join(current_dir, 'static' , 'numberplateimages', 'numberplates_data.csv')
-    latest_entry = {}
-
-    with open(csv_file_path, 'r') as file:
-        csv_reader = csv.reader(file)
-        header = next(csv_reader)  # Skip header row
-        for row in csv_reader:
-            image_filename = row[0]
-            number_plate = row[3]
-            date_time = row[2]
-            color = row[4]
-
-            image_path = os.path.join('static', image_filename)
-
-            if color == 'Green' or color == 'Red':
-                entry = {
+            if last_entry:
+                # Extract the desired values
+                image_path = last_entry[0]
+                number_plate_image_path = last_entry[1]
+                date_time = last_entry[2]
+                number_plate = last_entry[3]
+                color = last_entry[4]
+                print(image_path)
+                return {
                     'image_path': image_path,
+                    'number_plate_image_path': number_plate_image_path,
                     'date_time': date_time,
                     'number_plate': number_plate,
                     'color': color
+                    
                 }
-
-                if not latest_entry or date_time > latest_entry['date_time']:
-                    latest_entry = entry
-        print(image_path)
-    latest_image_data = latest_entry
+            else:
+                return None
+    else:
+        return None
 
 @app.route('/')
-def render_image():
-    return render_template('images/index.html', image_data=latest_image_data)
+def render_last_entry():
+    csv_file_path = './static/numberplateimages/numberplates_data.csv'
+    last_entry = get_last_entry(csv_file_path)
+
+    return render_template('images/index.html', entry=last_entry)
+
+
 
 if __name__ == '__main__':
-    update_image_data()  # Initial data update
-
-    app.run(host='0.0.0.0', port=5000,debug=True)
+    while True:
+        app.run( use_reloader=False, host='0.0.0.0')
+        time.sleep(10)
