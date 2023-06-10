@@ -12,7 +12,7 @@ def update_image_data():
     current_dir = os.path.dirname(os.path.abspath(__file__))
 
     # Read the CSV file
-    csv_file_path = os.path.join(current_dir, 'Frames', 'output.csv')
+    csv_file_path = os.path.join(current_dir, 'static' , 'numberplateimages', 'numberplates_data.csv')
     latest_entry = {}
 
     with open(csv_file_path, 'r') as file:
