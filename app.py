@@ -16,7 +16,7 @@ def get_last_entry(csv_file_path):
             # Iterate over the rows in reverse orderasasa
             for row in reversed(list(csv_reader)):
                 last_entry = row
-                break  # Only need the last entry, so break after the first row
+                break  # Only need the last entry, so break after the first row  
 
             if last_entry:
                 # Extract the desired values
