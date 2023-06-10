@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Red Hat Hackthon 2023</title>
+    <title>Last Entry</title>
+    <meta http-equiv="refresh" content="10">
     <style>
         body {
             background-color: #f2f2f2;
@@ -81,28 +82,29 @@
     </style>
 </head>
 <body>
-    <h1>Red Hat Hackthon 2023</h1>
+    <h1>Redhat hackthon 2023</h1>
     <h2>Intelligent vehicle pass</h2>
-    {% if image_data %}
+    {% if entry %}
         <div class="container">
             <div class="image-container">
-                <img src="{{ image_data.image_path }}" alt="Image">
+                <img src="{{ url_for('static', filename=entry.image_path) }}" alt="Vehicle Image">
+
             </div>
             <div class="info-container">
-                <p>Date and Time: {{ image_data.date_time }}</p>
-                <p>Number Plate: {{ image_data.number_plate }}</p>
+                <p>Date and Time: {{ entry.date_time }}</p>
+                <p>Number Plate: {{ entry.number_plate }}</p>
                 <div class="light">
-                    {% if image_data.color == 'Red' %}
+                    {% if entry.color == 'Red' %}
                         <div class="light-circle red-light-circle"></div>
                         <p class="red-text">Red</p>
-                    {% elif image_data.color == 'Green' %}
+                    {% elif entry.color == 'Green' %}
                         <div class="light-circle green-light-circle"></div>
                     {% endif %}
                 </div>
             </div>
         </div>
     {% else %}
-        <p class="no-data">No image data available.</p>
+        <p class="no-data">No entry available.</p>
     {% endif %}
 </body>
 </html>
